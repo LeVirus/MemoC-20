@@ -1,4 +1,4 @@
-
+#pragma once
 // Global module fragment where #includes can happen
 // module;
 // first thing after the Global module fragment must be a module command
@@ -16,3 +16,12 @@ public:
 //     void func();
 //     void func(int);
 // }
+
+
+//Pour les headers ajouter les preproc suivant:
+// #ifndef _HEADER_
+// #define _HEADER_
+
+// constexpr int life = 42;
+
+// #endif

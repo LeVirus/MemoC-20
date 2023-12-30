@@ -1,7 +1,6 @@
 
-// import <iostream>;
 module;
-#include <iostream>
+import <iostream>;
 
 module foo;
 
