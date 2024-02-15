@@ -2,29 +2,43 @@
 export module cor;
 
 //!! Placer les import après export module "..."!!!
+//Lancer g++ -std=c++20 -fmodules-ts -xc++-system-header coroutine
 import <coroutine>;
 
-
-export class Coroutine
+export
 {
-public:
-    Coroutine();
-    ~Coroutine() = default;
-    void testCor();
-};
+    struct ReturnObject;
+    class Coroutine
+    {
+    public:
+        Coroutine();
+        ~Coroutine() = default;
+        void testCor();
+        ReturnObject counter(std::coroutine_handle<> *continuation_out);
+    };
 
-// The caller-level type
-export struct Task {
-    // The coroutine level type
-    struct promise_type {
-        Task get_return_object() { return {}; }
-        std::suspend_never initial_suspend() { return {}; }
-        std::suspend_never final_suspend() noexcept { return {}; }
-        void return_void() {}
-        void unhandled_exception() {}
+    // The caller-level type
+    struct ReturnObject
+    {
+        // The coroutine level type
+        struct promise_type
+        {
+            ReturnObject get_return_object() { return {}; }
+            std::suspend_never initial_suspend() { return {}; }
+            std::suspend_never final_suspend() noexcept { return {}; }
+            void return_void() {}
+            void unhandled_exception() {}
+        };
+    };
+
+    struct Awaiter
+    {
+        std::coroutine_handle<> *hp_;
+        constexpr bool await_ready() const noexcept { return false; }
+        void await_suspend(std::coroutine_handle<> h) { *hp_ = h; }
+        constexpr void await_resume() const noexcept {}
     };
 };
-
 /*
  *
  * --Les coroutine doivent utiliser une structure appelée EXACTEMENT

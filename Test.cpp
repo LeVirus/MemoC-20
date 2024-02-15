@@ -17,7 +17,7 @@ public:
 // export {
 //     void func();
 //     void func(int);
-// }
+// }; //!!Point virgule!!
 
 
 //Pour les headers ajouter les preproc suivant:
