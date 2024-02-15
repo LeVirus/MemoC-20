@@ -1,9 +1,7 @@
-#pragma once
-
 module;
 //les import doivent être impérativement positionné aprés le "module;"
 import <iostream>;
-module Coroutine;
+module cor;
 
 //=========================================================
 Coroutine::Coroutine() = default;

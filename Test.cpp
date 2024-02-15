@@ -3,6 +3,8 @@
 // module;
 // first thing after the Global module fragment must be a module command
 export module foo;
+//les import doivent être impérativement positionné aprés le "module;"
+//import iostream;
 
 export class Gege
 {

@@ -7,7 +7,7 @@ import <string>;
 //Faire de même pour tous les autres includes de la STL
 
 import foo;
-import Coroutine;
+import cor;
 
 int main()
 {
