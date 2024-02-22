@@ -7,8 +7,6 @@ import <coroutine>;
 import <optional>;
 import <cstdint>;
 
-// #include <optional>
-
 export
 {
     struct ReturnObject;
@@ -44,6 +42,7 @@ export
     };
 
 
+    //Coroutine co_yield (retour de paramètre)
     template<typename T>
     struct Generator
     {
@@ -117,8 +116,7 @@ export
         }
     };
 
-    Generator<std::uint64_t>
-    fibonacci_sequence(unsigned n)
+    Generator<std::uint64_t> fibonacci_sequence(unsigned n)
     {
         if (n == 0)
             co_return;

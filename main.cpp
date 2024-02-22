@@ -4,6 +4,10 @@ import <iostream>;
 import <string>;
 import <coroutine>;
 import <cstdint>;
+import <ranges>;
+import <vector>;
+import <string>;
+import <algorithm>;
 
 //Lancer g++ -std=c++20 -fmodules-ts -xc++-system-header iostream
 // Cette commande semble devoir être exécuté dans le dossier où est compilé le programme
@@ -12,6 +16,7 @@ import <cstdint>;
 
 import foo;
 import cor;
+import mconcept;
 
 int main()
 {
@@ -34,7 +39,6 @@ int main()
         h();
     }
 
-    // std::cout << next();
     // h.destroy();//PLANTE à destroy??
     std::cout << "TEST COROUTINE co_yield\n";
 
@@ -42,6 +46,38 @@ int main()
 
     for (int j = 0; gen; ++j)
         std::cout << "fib(" << j << ")=" << gen() << '\n';
+    //=============================================Range && View
+
+    std::vector<std::string> words
+        = { "hello", "world", "c++", "ranges" };
+    std::ranges::transform(
+        words, words.begin(), [](std::string s) {
+            transform(s.begin(), s.end(), s.begin(),
+                      [](unsigned char c) {
+                          return toupper(c);
+                      });
+            return s;
+        });
+    for (std::string word : words) {
+        std::cout << word << " \n";
+    }
+    //=============================================Concept
+    TestConcept dd;
+    dd.basic();
+    //error
+    // std::cout << dd.average(1.5f, 1.6f) << std::endl;
+    //OK
+    std::cout << dd.average(1, 1) << std::endl;
+
+    //error
+    // Container<double> qq;
+    //OK
+    Container<int> cc;
+    Goblin mm;
+    //error
+    // dd.IsBaseFunction(cc);
+    //SEGMENT FAULT???
+    dd.IsBaseFunction(mm);
     return 0;
 }
 
