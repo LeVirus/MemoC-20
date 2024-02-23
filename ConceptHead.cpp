@@ -4,6 +4,19 @@ import <iostream>;
 
 export
 {
+    //Créer notre propre concept
+    //A mettre en dehors des classes/structures
+    template <typename T>
+    concept Integer = std::integral<T> || std::floating_point<T>;
+
+    //On peut également ajouter comme une fonction pour définir notre concept
+    template <typename T>
+    concept Averagable =
+        requires(T x, T y) {
+            (x + y) / 2;
+    };
+
+
     template <std::integral T>
     class Container
     {
@@ -44,6 +57,49 @@ export
             requires std::is_base_of_v<Player, T> ||
                      std::is_base_of_v<Monster, T>
         void IsBaseFunction(T Character) {}
+
+        /*
+         * Il est possible de positionner le requires après la définition de la fontion/méthode
+        */
+        template <typename T>
+        T DAverage(T x, T y)
+            requires std::integral<T>
+        {
+            return (x + y) / 2;
+        }
+
+        /*
+         * Possibilité d'utiliser des auto comme usage des concepts
+        */
+        auto AutooAverage(auto x, auto y) {
+            return (x + y) / 2;
+        }
+        auto AutoAverage(std::integral auto x,
+                     std::integral auto y) {
+            return (x + y) / 2;
+        }
+
+        /*
+        * Combinaison des concepts fifférents
+        */
+        template <std::integral TFirst, typename TSecond>
+            requires std::integral<TSecond> ||
+                     std::floating_point<TSecond>
+        void Function(TFirst x, TSecond y){}
+
+
+        //Utiliser de notre template déclarer en haut du fichier
+        template <Integer T>
+        T CREATE_Average(T x, T y) {
+            return (x + y) / 2;
+        }
+
+        //Utiliser de notre template déclarer en haut du fichier
+        template <Averagable T>
+        T averageableTest(T a, T b)
+        {
+            return (a + b) / 2;
+        }
     };
 }
 /**

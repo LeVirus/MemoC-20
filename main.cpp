@@ -77,7 +77,10 @@ int main()
     //error
     // dd.IsBaseFunction(cc);
     //SEGMENT FAULT???
-    dd.IsBaseFunction(mm);
+    // dd.IsBaseFunction(mm);
+    std::cerr << " DAv " <<dd.DAverage(5, 2) << "\n";
+    std::cerr << " AutooAverage " <<dd.AutooAverage(5, 2) << "\n";
+    std::cerr << " AutoAverage " <<dd.AutoAverage(5, 2) << "\n";
     return 0;
 }
 
