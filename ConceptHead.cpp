@@ -16,6 +16,16 @@ export
             (x + y) / 2;
     };
 
+    class Object{};
+    //Cumul de 2 conditions "&&"
+    //Vérifie si l'objet derriere le template possede les méthode Render et hasRendered
+    template <typename T>
+    concept Renderable =
+        std::derived_from<T, Object> &&
+        requires(T Object){
+            Object.Render();
+            Object.hasRendered;
+    };
 
     template <std::integral T>
     class Container
