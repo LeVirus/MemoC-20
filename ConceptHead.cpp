@@ -10,17 +10,82 @@ export
     concept Integer = std::integral<T> || std::floating_point<T>;
 
     //On peut également ajouter comme une fonction pour définir notre concept
+    //ET cumuler les contraintes par || ou &&
     template <typename T>
     concept Averagable =
-        requires(T x, T y) {
+        requires(T x, T y)
+    {
             (x + y) / 2;
+    } ||
+         requires(T x)
+    {
+         (x / 2);
     };
+
+
+    //Définir une contrainte de type pour l'usage d'une méthode
+    class Tree
+    {
+        void Render(int s){}
+    };
+    template <typename T>
+    concept RenderableA =
+        requires(T Object, int Size)
+        {
+            Object.Render(Size);
+        };
+
+    //test valeur de retour!!!=======================
+    template <typename T>
+    concept RenderableRet = requires(T Object)
+    {
+        { Object.Render() } -> std::integral;
+    };
+
+    //Utilisation de type equivalent
+    template <typename T>
+    concept RenderableSame = requires(T Object)
+    {
+        { Object.Render() } -> std::same_as<int>; // <==> std::convertible_to<int>
+    };
+
+    //Possibilité d'avoir plusieurs type de template dans un concept
+    template <typename T, typename ArgType>
+    concept RenderableAA = requires(T Object, ArgType Arg)
+    {
+        Object.Render(Arg);
+    };
+    //autre possibilité avec plus de précision
+    template <typename T, typename ArgType>
+        requires RenderableAA<T, ArgType>
+    void Render(T Object, ArgType Arg)
+    {
+        Object.Render(Arg);
+    }
+
+    template <typename ArgType, RenderableAA<ArgType> T>
+    void Render(T Object, ArgType Arg)
+    {
+        Object.Render(Arg);
+    }
+
+    template <typename T>
+    concept Renderable =
+        requires(T Object)
+    {
+        Object.Render();
+        requires std::same_as<
+            //vérifie le type de retour de la méthode
+            decltype(Object.hasRendered),
+            bool>;
+    };
+
 
     class Object{};
     //Cumul de 2 conditions "&&"
     //Vérifie si l'objet derriere le template possede les méthode Render et hasRendered
     template <typename T>
-    concept Renderable =
+    concept RenderableST =
         std::derived_from<T, Object> &&
         requires(T Object){
             Object.Render();
